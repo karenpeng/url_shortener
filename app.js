@@ -5,6 +5,7 @@ var ejs = require('ejs')
 var bodyParser = require('body-parser')
 var base62 = require('base62')
 var config = require('./config.json')
+var isUrl = require('valid-url').is_http_uri
 
 var hash = {}
 var count = 0;
@@ -30,21 +31,27 @@ var protectURL = [
 ]
 
 app.post('/shorten', function(req, res){
-  console.log(req.body.data)
-  count ++;
-  //1. lookup
-  //if yes,redirect
-  //if no,
-  // req.url -> short url
-  
-  //save into the hash table
-  //console.log(req.body.data)
-  var shortURL = createShortURL()
-  hash[shortURL] = req.body.data
-  console.dir(hash)
-  //new EJS({url: 'index.ejs'}).update('short', {'short': shortURL})
-  res.send({'short': shortURL})
-  //redirect
+  if(isUrl(req.body.data)){
+    console.log(req.body.data)
+    count ++;
+    //1. lookup
+    //if yes,redirect
+    //if no,
+    // req.url -> short url
+    
+    //save into the hash table
+    //console.log(req.body.data)
+    var shortURL = createShortURL()
+    hash[shortURL] = req.body.data
+    console.dir(hash)
+    //new EJS({url: 'index.ejs'}).update('short', {'short': shortURL})
+    res.send({'short': shortURL})
+    //redirect
+
+  }else{
+    res.status(500).send('Invaild url')
+  }
+
 })
 
 app.get('/', function(req, res){
@@ -75,11 +82,6 @@ app.get('/:url', function(req, res){
 //   //if no, error
 })
 
-
-function lookUpHash(key){
-
-}
-
 function createShortURL(id){
 
   function roundFunction(val){
@@ -107,14 +109,9 @@ function createShortURL(id){
   return url
 }
 
-
-function saveInHash(key, value){
-
-}
-
 var port = process.env.PORT || config.port
 app.listen(port, function(){
   console.log('listening on ' + port)
 })
 
-
+module.exports = app

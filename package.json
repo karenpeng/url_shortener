@@ -1,0 +1,26 @@
+{
+  "name": "short_url",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:karenpeng/short_url.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/karenpeng/short_url/issues"
+  },
+  "homepage": "https://github.com/karenpeng/short_url",
+  "dependencies": {
+    "base62": "^1.1.0",
+    "body-parser": "^1.13.2",
+    "ejs": "^2.3.3",
+    "express": "^4.13.1",
+    "jquery-browserify": "^1.8.1"
+  }
+}

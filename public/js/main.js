@@ -12,7 +12,10 @@ $('#submit').click(function(){
       console.dir(err)
     },
     success: function(data){
-      console.log(data)
+    console.log(data)
+    //new EJS({url: 'index.ejs'}).update('short', {'short': shortURL})
+    //console.log(EJS)
+    $("#shortURL").html('http://localhost:3000/' + data.short)
     }
   })
 })

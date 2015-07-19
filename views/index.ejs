@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Starter</title>
+        <title>short url</title>
         <link href='//fonts.googleapis.com/css?family=Roboto:100' rel='stylesheet' type='text/css'>
         <style>
             html, body { height: 100%; }
@@ -18,9 +18,13 @@
                 <div class="title">short url</div>
                 <form>
                     <input id="longURL" type="text"/>
-                    <button id="submit">submit</button>
+                    <!--why can't i put the button here?-->
                 </form>
-               
+                <button id="submit">submit</button>
+                <% if(short){%>
+                <div><%= short %></div>
+                <% }%>
+                <div id='shortURL'></div>
             </div>
         </div>
     </body>

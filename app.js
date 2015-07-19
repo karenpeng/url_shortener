@@ -42,33 +42,39 @@ app.post('/shorten', function(req, res){
   var shortURL = createShortURL()
   hash[shortURL] = req.body.data
   console.dir(hash)
+  //new EJS({url: 'index.ejs'}).update('short', {'short': shortURL})
   res.send({'short': shortURL})
   //redirect
 })
 
 app.get('/', function(req, res){
-  res.render('index.ejs')
+  res.render('index.ejs', {'short': 'haha'})
 })
 
-// app.get('/:url', function(req, res){
+app.get('/:url', function(req, res){
 
-//   console.log(req.params.url)
+  console.log(req.params.url)
 
-//   if(req.params.url === 'favicon.ico'){
-//     console.log('jjj')
+  if(hash.hasOwnProperty(req.params.url)){
+    res.redirect(hash[req.params.url])
+  }
+  // if(req.params.url === 'favicon.ico'){
+  //   console.log('jjj')
 
-//     res.render('index.html')
+  //   res.render('index.html')
 
-//   }else{
+  // }else{
 
 
-//   }
+  // }
+  
 //   //lookup
   
 //   //if yes, redirect
   
 //   //if no, error
-// })
+})
+
 
 function lookUpHash(key){
 

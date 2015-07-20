@@ -7,7 +7,8 @@ var base62 = require('base62')
 var config = require('./config.json')
 var isUrl = require('valid-url').is_http_uri
 
-var hash = {}
+var longHash = {}
+var shortHash = {}
 var count = 0;
 
 /*
@@ -33,21 +34,21 @@ var protectURL = [
 app.post('/shorten', function(req, res){
   if(isUrl(req.body.data)){
     console.log(req.body.data)
-    count ++;
+    var url = req.body.data
     //1. lookup
     //if yes,redirect
-    //if no,
-    // req.url -> short url
-    
-    //save into the hash table
-    //console.log(req.body.data)
-    var shortURL = createShortURL()
-    hash[shortURL] = req.body.data
-    console.dir(hash)
-    //new EJS({url: 'index.ejs'}).update('short', {'short': shortURL})
-    res.send({'short': shortURL})
-    //redirect
-
+    if(longHash.hasOwnProperty(url)){
+      res.send({'short': longHash[url]})
+    }else{
+      //if no,
+      // req.url -> short url
+      //save into the hash table
+      var shortURL = createShortURL(++count)
+      shortHash[shortURL] = url
+      longHash[url] = shortURL
+      //new EJS({url: 'index.ejs'}).update('short', {'short': shortURL})
+      res.send({'short': shortURL})
+    }
   }else{
     res.status(500).send('Invaild url')
   }
@@ -60,26 +61,23 @@ app.get('/', function(req, res){
 
 app.get('/:url', function(req, res){
 
-  console.log(req.params.url)
+  var shortURL = req.params.url
 
-  if(hash.hasOwnProperty(req.params.url)){
-    res.redirect(hash[req.params.url])
+  //lookup
+  
+  //if yes, redirect
+
+  if(shortHash.hasOwnProperty(shortURL)){
+
+    res.redirect(shortHash[shortURL])
+
+  //if no, error
+  }else{
+
+    res.status(404).send('url not found')
+
   }
-  // if(req.params.url === 'favicon.ico'){
-  //   console.log('jjj')
 
-  //   res.render('index.html')
-
-  // }else{
-
-
-  // }
-  
-//   //lookup
-  
-//   //if yes, redirect
-  
-//   //if no, error
 })
 
 function createShortURL(id){
@@ -89,8 +87,8 @@ function createShortURL(id){
   }
 
   function permuteId(id){
-    l1 = (id>>16) && 65535
-    r1 = id&65535
+    l1 = (id >> 16) && 65535
+    r1 = id & 65535
 
     for(var i = 0; i < 2; i++){
       l2 = r1;
@@ -103,8 +101,10 @@ function createShortURL(id){
     }
   }
 
-  var url = base62.encode(permuteId(id))
-  console.log(url)
+  var weirdId = Math.abs(permuteId(id))
+  console.log('weird id ', weirdId)
+  var url = base62.encode(weirdId)
+  console.log('lalala short url ', url)
 
   return url
 }

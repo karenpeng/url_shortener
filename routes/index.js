@@ -2,7 +2,7 @@ var express = require('express')
 var router = express.Router()
 
 var isUrl = require('valid-url').is_http_uri
-var createShortURL = require('./utils/index.js')
+var createShortURL = require('./../utils/index')
 
 
 var longHash = {}
@@ -17,7 +17,7 @@ router.get('/', function(req, res){
   })
 })
 
-router.post('/shorten', function(req, res){
+router.post('/shorten', function(req, res, next){
   if(isUrl(req.body.data)){
     //console.log(req.body.data)
     var url = req.body.data
@@ -41,12 +41,15 @@ router.post('/shorten', function(req, res){
       res.send({'short': shortURL})
     }
   }else{
-    res.status(500).send('Invaild url')
+    //res.status(500).send('Invaild url')
+    var err = new Error('Invalid url')
+    err.status = 500
+    next(err)
   }
 
 })
 
-router.get('/:url', function(req, res){
+router.get('/:url', function(req, res, next){
 
   var shortURL = req.params.url
 
@@ -61,7 +64,10 @@ router.get('/:url', function(req, res){
   //if no, error
   }else{
 
-    res.status(404).send('url not found')
+    //res.status(404).send('url not found')
+    var err = new Error('url not found')
+    err.status = 404
+    next(err)
 
   }
 

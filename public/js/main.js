@@ -1,4 +1,3 @@
-//var $ = require('jquery-browserify')
 $('#submit').click(function(){
   console.log($('#longURL').val())
   $.ajax({
@@ -8,14 +7,19 @@ $('#submit').click(function(){
     data: JSON.stringify({
       data: $('#longURL').val()
     }),
-    error: function(err){
-      console.dir(err)
+    dataType: 'json',
+    error: function(error){
+      console.dir(data)
     },
     success: function(data){
-    console.log(data)
-    //new EJS({url: 'index.ejs'}).update('short', {'short': shortURL})
-    //console.log(EJS)
-    $("#shortURL").html('http://localhost:3000/' + data.short)
+      console.log(data)
+      //new EJS({url: 'index.ejs'}).update('short', {'short': shortURL})
+      //console.log(EJS)
+      if(data.success){
+        $("#shortURL").html('http://localhost:3000/' + data.short)
+      }else{
+        $("#shortURL").html(data.short)
+      }
     }
   })
 })

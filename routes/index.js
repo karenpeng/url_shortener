@@ -25,7 +25,7 @@ router.post('/shorten', function(req, res, next){
     //if yes,redirect
     if(longHash.hasOwnProperty(url)){
 
-      res.send({'short': longHash[url]})
+      res.send({short: longHash[url]})
 
     }else{
       //if no,
@@ -38,13 +38,28 @@ router.post('/shorten', function(req, res, next){
 
       longHash[url] = shortURL
       //new EJS({url: 'index.ejs'}).update('short', {'short': shortURL})
-      res.send({'short': shortURL})
+      res.send({
+        success: true,
+        short: shortURL
+      })
+      // res.render('short', {
+      //   title: 'short.ly',
+      //   short: shortURL
+      // })
     }
   }else{
-    //res.status(500).send('Invaild url')
-    var err = new Error('Invalid url')
-    err.status = 500
-    next(err)
+
+    //res.status(500).send('Invalid url')
+    // var err = new Error('Invalid url')
+    // err.status = 500
+    // next(err)
+    // res.status(500).send({
+    //   message: 'Invalid url :('
+    // })
+    res.send({
+      success: false,
+      short: 'Invalid url, please try again.'
+    })
   }
 
 })

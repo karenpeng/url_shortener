@@ -15,16 +15,9 @@
     <body>
         <div class="container">
             <div class="content">
-                <div class="title">short url</div>
-                <form>
-                    <input id="longURL" type="text"/>
-                    <!--why can't i put the button here?-->
-                </form>
-                <button id="submit">submit</button>
-                <% if(short){%>
-                <div><%= short %></div>
-                <% }%>
-                <div id='shortURL'></div>
+                <h1><%= message %> :(</h1>
+                <h2><%= error.status %></h2>
+                <pre><%= error.stack %></pre>
             </div>
         </div>
     </body>

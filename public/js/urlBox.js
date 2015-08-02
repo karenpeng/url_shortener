@@ -37,7 +37,7 @@ var UrlBox = React.createClass({
       error: function(error){
         console.dir(error)
         this.setState({
-          errorMsg: error,
+          errorMsg: 'Unable to shorten that link. It is not a valid url.',
           shortUrl: ''
         })
       }.bind(this),
@@ -78,6 +78,12 @@ var InputBox = React.createClass({
       url: e.target.value
     })
   },
+  handleClear: function(e){
+    e.preventDefault()
+    this.setState({
+      url: ''
+    })
+  },
   handleClick: function(e){
     e.preventDefault()
     this.props.haha(this.state.url)
@@ -85,8 +91,9 @@ var InputBox = React.createClass({
   render: function(){
     return(
       <form>
-        <input type="text" onChange={this.handleChange}/><br/>
-        <button disabled={this.state.url.length === 0} onClick={this.handleClick}>shorten</button>                   
+        <input type="text" onChange={this.handleChange} value={this.state.url}/><br/>
+        <button disabled={this.state.url.length === 0} onClick={this.handleClick}>shorten</button>
+        <button disabled={this.state.url.length === 0} onClick={this.handleClear}>clear</button>              
       </form>
     )
   }

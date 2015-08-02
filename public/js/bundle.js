@@ -10,17 +10,14 @@ $('#submit').click(function(){
     }),
     dataType: 'json',
     error: function(error){
-      console.dir(data)
+      console.dir(error)
+      $("#shortURL").html('Invalid url, please try again.')
     },
     success: function(data){
       console.log(data)
       //new EJS({url: 'index.ejs'}).update('short', {'short': shortURL})
       //console.log(EJS)
-      if(data.success){
-        $("#shortURL").html('http://localhost:3000/' + data.short)
-      }else{
-        $("#shortURL").html(data.short)
-      }
+      $("#shortURL").html('http://localhost:3000/' + data.short)
     }
   })
 })

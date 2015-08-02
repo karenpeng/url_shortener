@@ -1,8 +1,13 @@
 var express = require('express')
 var router = express.Router()
+var path = require('path')
 
 var isUrl = require('valid-url').is_http_uri
 var createShortURL = require('./../utils/index')
+var flatfile = require('flatfile')
+
+var cfg      = require('./../config.json')
+// var dbPath   = path.join(__dirname, '..', cfg.db)
 
 
 var longHash = {}
@@ -11,10 +16,12 @@ var count = 0
 
 
 router.get('/', function(req, res){
-  res.render('index', {
-    title: 'short.ly',
-    short: 'haha'
-  })
+  console.log('say something...')
+  //res.render('index', {
+    // title: 'short.ly',
+    // short: 'haha'
+  //})
+  res.render('index')
 })
 
 router.post('/shorten', function(req, res, next){
@@ -37,29 +44,14 @@ router.post('/shorten', function(req, res, next){
       shortHash[shortURL] = url
 
       longHash[url] = shortURL
+
       //new EJS({url: 'index.ejs'}).update('short', {'short': shortURL})
       res.send({
-        success: true,
         short: shortURL
       })
-      // res.render('short', {
-      //   title: 'short.ly',
-      //   short: shortURL
-      // })
     }
   }else{
-
-    //res.status(500).send('Invalid url')
-    // var err = new Error('Invalid url')
-    // err.status = 500
-    // next(err)
-    // res.status(500).send({
-    //   message: 'Invalid url :('
-    // })
-    res.send({
-      success: false,
-      short: 'Invalid url, please try again.'
-    })
+    res.status(500).send({})
   }
 
 })

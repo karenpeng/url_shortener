@@ -4,11 +4,13 @@ var longURL = ''
 
 var UrlBox = React.createClass({
   PropTypes:{
-    url: React.PropTypes.string.isRequired
+    url: React.PropTypes.string.isRequired,
+    port: React.PropTypes.number.isRequired
   },
   getInitialState: function(){
     return{
-      shortUrl: ''
+      shortUrl: '',
+      errorMsg: ''
     }
   },
   handleSubmit: function(data){
@@ -35,29 +37,27 @@ var UrlBox = React.createClass({
       error: function(error){
         console.dir(error)
         this.setState({
-          shortUrl: 'oops, try again' + error.toString()
+          errorMsg: error,
+          shortUrl: ''
         })
-        console.log(this.state.shortUrl)
       }.bind(this),
       success: function(data){
         console.log(data)
-        //new EJS({url: 'index.ejs'}).update('short', {'short': shortURL})
-        //console.log(EJS)
         this.setState({
-          shortUrl: data.short
+          shortUrl: 'http://localhost:' +this.props.port +'/' + data.short,
+          errorMsg: ''
         })
-        console.log(this.state.shortUrl)
       }.bind(this)
     })
   },
-  componentDidMount: function () {
-    this.sendUrlToServer()
-  },
+  // componentDidMount: function () {
+  //   this.sendUrlToServer()
+  // },
   render: function(){
     return(
       <div className="UrlBox">
          <InputBox haha = {this.handleSubmit}></InputBox>
-         <OutputBox data = {this.state.shortUrl}></OutputBox>
+         <OutputBox shortUrl = {this.state.shortUrl} errorMsg = {this.state.errorMsg}></OutputBox>
       </div>
     )
   }
@@ -94,16 +94,22 @@ var InputBox = React.createClass({
 
 var OutputBox = React.createClass({
   PropTypes: {
-    shortUrl: React.PropTypes.string.isRequired
+    shortUrl: React.PropTypes.string.isRequired,
+    errorMsg: React.PropTypes.string.isRequired
   },
   render: function(){
     return(
-      <p>{this.props.shortUrl}</p>
+      <div>
+        <p>{this.props.errorMsg}</p>
+        <a href={this.props.shortUrl}>{this.props.shortUrl}</a>
+      </div>
     )
   }
 })
 
 React.render(
-  <UrlBox url="/shorten" />,
+  // <UrlBox url={this.props.url} port={this.props.port} />,
+  // @TODO: can i set below props from server?
+  <UrlBox url='/shorten' port='1235' />,
   document.getElementById('container')
 );

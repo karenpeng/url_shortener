@@ -21,7 +21,10 @@ router.get('/', function(req, res){
     // title: 'short.ly',
     // short: 'haha'
   //})
-  res.render('index')
+  res.render('index', {
+    ur: '/shorten',
+    port: cfg.port
+  })
 })
 
 router.post('/shorten', function(req, res, next){
@@ -59,13 +62,11 @@ router.post('/shorten', function(req, res, next){
 router.get('/:url', function(req, res, next){
 
   var shortURL = req.params.url
-
   //lookup
   
   //if yes, redirect
 
   if(shortHash.hasOwnProperty(shortURL)){
-
     res.redirect(shortHash[shortURL])
 
   //if no, error

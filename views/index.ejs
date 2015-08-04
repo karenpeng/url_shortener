@@ -2,6 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title><%= title %></title>
+    <link href='//fonts.googleapis.com/css?family=Roboto:100' rel='stylesheet' type='text/css'>
+    <style>
+      html, body { height: 100%; }
+      body { margin: 0; padding: 0; width: 100%; color: #B0BEC5; display: table; font-weight: 100; font-family: 'Roboto'; }
+      #container { text-align: center; display: table-cell; vertical-align: middle;}
+      .content { text-align: center; display: inline-block; }
+      .title { font-size: 96px; margin-bottom: 40px; }
+      .quote { font-size: 24px; }
+    </style>
 </head>
 
 <body>
@@ -9,10 +19,7 @@
     <!-- This element's contents will be replaced with your component. -->
   </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.1/JSXTransformer.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
-<script type="text/jsx;harmony=true" src="js/urlBox.js"></script>
+<script type="text/javascript" src="./dist/js/bundle.js"></script>
 
 </body>
 </html>

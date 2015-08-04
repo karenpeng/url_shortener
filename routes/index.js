@@ -9,11 +9,9 @@ var flatfile = require('flatfile')
 var cfg      = require('./../config.json')
 // var dbPath   = path.join(__dirname, '..', cfg.db)
 
-
 var longHash = {}
 var shortHash = {}
 var count = 0
-
 
 router.get('/', function(req, res){
   console.log('say something...')
@@ -22,6 +20,7 @@ router.get('/', function(req, res){
     // short: 'haha'
   //})
   res.render('index', {
+    title: 'shortly',
     ur: '/shorten',
     port: cfg.port
   })

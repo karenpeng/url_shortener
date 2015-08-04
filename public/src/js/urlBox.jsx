@@ -1,5 +1,5 @@
-//var React = require('react')
-//var request = require('superagent');
+var React = require('react')
+var request = require('superagent');
 var longURL = ''
 
 var UrlBox = React.createClass({
@@ -18,37 +18,28 @@ var UrlBox = React.createClass({
       this.sendUrlToServer()
   },
   sendUrlToServer: function(){
-  //should do ajax here
-  //   request
-  // .post('/api/pet')
-  // .send({ name: 'Manny', species: 'cat' })
-  // .set('X-API-Key', 'foobar')
-  // .set('Accept', 'application/json')
-  // .end(function(err, res){
-  // });
-    $.ajax({
-      url: this.props.url,
-      method: 'POST',
-      contentType: 'application/json; charset=utf-8',
-      data: JSON.stringify({
-        data: longURL
-      }),
-      dataType: 'json',
-      error: function(error){
-        console.dir(error)
+      request
+    .post(this.props.url)
+    .send(JSON.stringify({
+          data: longURL
+        }))
+    .set('Content-Type', 'application/json')
+    .end(function(err, res){
+      if(err){
+        console.log(err)
         this.setState({
           errorMsg: 'Unable to shorten that link. It is not a valid url.',
           shortUrl: ''
         })
-      }.bind(this),
-      success: function(data){
-        console.log(data)
-        this.setState({
-          shortUrl: 'http://localhost:' +this.props.port +'/' + data.short,
-          errorMsg: ''
-        })
-      }.bind(this)
-    })
+        return
+      }
+      console.log(res)
+      this.setState({
+        shortUrl: 'http://localhost:' +this.props.port +'/' + res.body.short,
+        errorMsg: ''
+      })
+    }.bind(this))
+
   },
   // componentDidMount: function () {
   //   this.sendUrlToServer()
@@ -114,9 +105,6 @@ var OutputBox = React.createClass({
   }
 })
 
-React.render(
-  // <UrlBox url={this.props.url} port={this.props.port} />,
-  // @TODO: can i set below props from server?
-  <UrlBox url='/shorten' port='1235' />,
-  document.getElementById('container')
-);
+
+
+module.exports = UrlBox

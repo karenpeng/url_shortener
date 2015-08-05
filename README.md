@@ -1,7 +1,7 @@
-## this is a short url exercise, front end using React.js, backend using Node.js
+## this is a url-shortener exercise
 
-- [x] something
-- [ ] fix gulp watch bug
-- [ ] front end styling
-- [ ] save data to database
-- [ ] error page
+frontend with React.js, backend with Node.js
+
+- [x] get it working
+- [ ] fix bugs in the issues
+- [ ] research on questions in issues

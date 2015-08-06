@@ -21,37 +21,35 @@ router.get('/', function(req, res){
 })
 
 router.post('/shorten', function(req, res, next){
-  if(isUrl(req.body.data)){
-    //console.log(req.body.data)
-    var url = req.body.data
-    
-    var query = {'long': url}
-    var select = 'short'
-    var options = {
-      limit: 1
+
+  if(!isUrl(req.body.data)) {
+    return res.status(500).send({})
+  }
+
+  //console.log(req.body.data)
+  var url = req.body.data
+  
+  var query = {'long': url}
+  var select = 'short'
+  var options = {
+    limit: 1
+  }
+
+  Record.find(query, select, options, function(err, data){
+    if(err){
+      return next(err)
     }
 
-    Record.find(query, select, options, function(err, data){
-      if(err){
-        return next(err)
-      }
+    if(data.length > 0){
+      return res.send({short: data[0].short})   
+    }
 
-      if(data.length > 0){
+    //@TODO: how could i count from db???
+    var shortURL = createShortURL(++count)
+    Query.addRecord(shortURL, url)
+    res.send({short: shortURL})
 
-        res.send({short: data[0].short})
-      
-      }else{
-        //@TODO: how could i count from db???
-        var shortURL = createShortURL(++count)
-        Query.addRecord(shortURL, url)
-        res.send({short: shortURL})
-      }
-
-    })
-  
-  }else{
-    res.status(500).send({})
-  }
+  })
 
 })
 

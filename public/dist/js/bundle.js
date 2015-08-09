@@ -21253,20 +21253,18 @@ module.exports = function(arr, fn, initial){
 })(module);
 
 },{}],161:[function(require,module,exports){
-/** @jsx React.DOM */
+var React = require('react')
+var UrlBox = require('./urlBox.jsx')
 
-var React = require('react');
-// Here we put our React instance to the global scope. Make sure you do not put it 
-// into production and make sure that you close and open your console if the 
-// DEV-TOOLS does not display
-window.React = React; 
+// module.exports = function(data, containerId){
+//   var container = document.getElementById(containerId || 'container')
+//   React.render(<
+//     <UrlBox postUrl=data.postUrl port=data.port />,
+//     container)
+// }
 
-var UrlBox = require('./urlBox.jsx');
-React.render(
-  // <UrlBox url={this.props.url} port={this.props.port} />,
-  // @TODO: can i set below props from server?
-  React.createElement(UrlBox, {url: "/shorten", port: "1235"}),
-  document.getElementById('container'))
+  var container = document.getElementById('container')
+  React.render(React.createElement(UrlBox, {postUrl: '/shorten', port: window.port}), container)
 
 },{"./urlBox.jsx":162,"react":156}],162:[function(require,module,exports){
 var React = require('react')
@@ -21276,7 +21274,7 @@ var longURL = ''
 
 var UrlBox = React.createClass({displayName: "UrlBox",
   PropTypes:{
-    url: React.PropTypes.string.isRequired,
+    postUrl: React.PropTypes.string.isRequired,
     port: React.PropTypes.number.isRequired
   },
   getInitialState: function(){
@@ -21298,7 +21296,7 @@ var UrlBox = React.createClass({displayName: "UrlBox",
   },
   sendUrlToServer: function(longURL){
       request
-    .post(this.props.url)
+    .post(this.props.postUrl)
     .send(JSON.stringify({
           data: longURL
         }))
@@ -21332,7 +21330,6 @@ var UrlBox = React.createClass({displayName: "UrlBox",
     )
   }
 })
-
 
 var InputBox = React.createClass({displayName: "InputBox",
   propTypes: {
@@ -21383,8 +21380,6 @@ var OutputBox = React.createClass({displayName: "OutputBox",
     )
   }
 })
-
-
 
 module.exports = UrlBox
 

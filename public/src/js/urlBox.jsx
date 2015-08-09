@@ -5,7 +5,7 @@ var longURL = ''
 
 var UrlBox = React.createClass({
   PropTypes:{
-    url: React.PropTypes.string.isRequired,
+    postUrl: React.PropTypes.string.isRequired,
     port: React.PropTypes.number.isRequired
   },
   getInitialState: function(){
@@ -27,7 +27,7 @@ var UrlBox = React.createClass({
   },
   sendUrlToServer: function(longURL){
       request
-    .post(this.props.url)
+    .post(this.props.postUrl)
     .send(JSON.stringify({
           data: longURL
         }))
@@ -61,7 +61,6 @@ var UrlBox = React.createClass({
     )
   }
 })
-
 
 var InputBox = React.createClass({
   propTypes: {
@@ -112,7 +111,5 @@ var OutputBox = React.createClass({
     )
   }
 })
-
-
 
 module.exports = UrlBox

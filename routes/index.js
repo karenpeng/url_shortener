@@ -1,5 +1,6 @@
 var express = require('express')
 var router = express.Router()
+var cfg = require('./../config.json')
 
 var isUrl = require('valid-url').is_http_uri
 var createShortURL = require('./../utils/index')
@@ -9,9 +10,11 @@ var proxy = require('./../proxy/proxy.js')
 router.get('/', function(req, res){
   
   res.render('index', {
-    title: 'shortly'//,
-    // ur: '/shorten',
-    // port: cfg.port
+    title: 'short.ly',
+    data:{
+      postUrl: '/shorten',
+      port: cfg.port 
+    }
   })
 })
 

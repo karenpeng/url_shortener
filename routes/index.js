@@ -10,7 +10,7 @@ var proxy = require('./../proxy/proxy.js')
 router.get('/', function(req, res){
   
   res.render('index', {
-    title: 'Short.ly',
+    title: 'shortly',
     data:{
       postUrl: '/shorten',
       port: cfg.port 

@@ -23,5 +23,17 @@ html, body {
 }
 
 button{
-  width: 100px;
+  width: 80px;
+}
+
+.outputBox{
+  margin-top: 20px;
+}
+
+.alert-danger{
+ -webkit-transition: opacity 5s ease-in;
+    -moz-transition: opacity 5s ease-in;
+    -ms-transition: opacity 5s ease-in;
+    -o-transition: opacity 5s ease-in;
+  opacity: 0;
 }

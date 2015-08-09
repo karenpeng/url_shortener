@@ -21282,7 +21282,7 @@ var UrlBox = React.createClass({displayName: "UrlBox",
       //check url validation in frontend
       if(!isUrl(data)) {
         this.setState({
-          errorMsg: 'Unable to shorten that link. It is not a valid url.',
+          errorMsg: 'Unable to shorten invalid url. ಠ~ಠ',
           shortUrl: '',
           result: 'form-group has-error has-feedback'
         })
@@ -21308,7 +21308,7 @@ var UrlBox = React.createClass({displayName: "UrlBox",
       if(err){
         console.log(err)
         this.setState({
-          errorMsg: 'Unable to shorten that link. It is not a valid url.',
+          errorMsg: 'Unable to shorten invalid url. ಠ~ಠ',
           shortUrl: '',
           result: 'form-group has-error has-feedback'
         })
@@ -21329,9 +21329,9 @@ var UrlBox = React.createClass({displayName: "UrlBox",
     return(
       React.createElement("div", {className: this.state.result}, 
          React.createElement(InputBox, {
-           submit: this.handleSubmit, typing: this.handleTyping
-         }), 
-         React.createElement(OutputBox, {shortUrl: this.state.shortUrl, errorMsg: this.state.errorMsg})
+           submit: this.handleSubmit, typing: this.handleTyping, 
+           shortUrl: this.state.shortUrl, errorMsg: this.state.errorMsg}
+         )
       )
     )
   }
@@ -21340,76 +21340,91 @@ var UrlBox = React.createClass({displayName: "UrlBox",
 var InputBox = React.createClass({displayName: "InputBox",
   propTypes: {
     submit: React.PropTypes.func.isRequired,
-    typing: React.PropTypes.func.isRequired
+    typing: React.PropTypes.func.isRequired,
+    shortUrl: React.PropTypes.string.isRequired,
+    errorMsg: React.PropTypes.string.isRequired
   },
   getInitialState: function(){
     return{
       url: '',
-      clearable: false
+      buttonValue: 'shorten'
     }
   },
   handleChange: function(e){
     this.setState({
       url: e.target.value,
-      clearable: false
+      buttonValue: 'shorten'
     })
     this.props.typing()
   },
-  handleClear: function(){
-    this.setState({
-      clearable: false,
-      url: ''
-    })
-  },
-  handleClick: function(e){
+  handleSubmit: function(e){
     e.preventDefault()
     this.props.submit(this.state.url)
-    this.setState({
-      clearable: true
-    })
   },
-  render: function(){
-    return(
-      React.createElement("form", null, 
-        React.createElement("input", {className: "form-control", type: "text", placeholder: "Pasted a link to shorten it", 
-        onChange: this.handleChange, value: this.state.url}), 
-        React.createElement("br", null), 
-        React.createElement("button", {
-          className: this.state.clearable? style.button.normal : style.button.primary, 
-          disabled: this.state.url.length === 0, 
-          onClick: this.state.clearable? this.handleClear : this.handleClick}, 
-          this.state.clearable? 'clear' : 'shorten'
-        )
-      )
-    )
-  }
-})
+  handleClear: function(){
+    this.setState({
+      url: '',
+      buttonValue: 'shorten'
+    })
+    this.props.typing()
+  },
+  handleCopy: function(){
 
-var OutputBox = React.createClass({displayName: "OutputBox",
-  PropTypes: {
-    shortUrl: React.PropTypes.string.isRequired,
-    errorMsg: React.PropTypes.string.isRequired
+  },
+  something: function(){
+    if(this.props.shortUrl.length > 0){
+      this.setState({buttonValue: 'copy'})
+      return
+    }
+    if(this.props.errorMsg.length > 0){
+      this.setState({buttonValue: 'clear'})
+      return
+    }
+    this.setState({
+      buttonValue: 'shorten'
+    })
   },
   render: function(){
     return(
       React.createElement("div", null, 
-        React.createElement("p", null, this.props.errorMsg), 
-        React.createElement("a", {href: this.props.shortUrl}, this.props.shortUrl)
+
+        React.createElement("form", {className: "input-group"}, 
+          React.createElement("input", {className: "form-control", type: "text", placeholder: "Pasted a link to shorten it", 
+            onChange: this.handleChange, 
+            value: this.props.shortUrl.length > 0 ? this.props.shortUrl : this.state.url}), 
+          React.createElement("span", {className: "input-group-btn"}, 
+            React.createElement("button", {
+              disabled: this.state.url.length === 0, 
+              className: 
+                this.props.shortUrl.length > 0 ? 'btn btn-success' : (
+                    this.props.errorMsg.length > 0 ? 'btn btn-default' : 'btn btn-primary'
+                  ), 
+              
+              onClick: 
+                this.props.shortUrl.length > 0 ? this.handleCopy : (
+                    this.props.errorMsg.length > 0 ? this.handleClear : this.handleSubmit
+                  )
+              }, 
+              
+                 this.props.shortUrl.length > 0 ? 'copy' : (
+                    this.props.errorMsg.length > 0 ? 'clear' : 'shorten'
+                  )
+              
+            )
+          )
+        ), 
+
+        React.createElement("div", {className: "outputBox"}, 
+          React.createElement("div", {className: this.props.errorMsg.length > 0 ? 'alert alert-danger' : ''}, 
+            this.props.errorMsg
+          )
+        )
+
       )
     )
   }
-})
 
-var style = {
-  button: {
-    primary: 'btn btn-primary',
-    normal: 'btn btn-default'
-  }//,
-  // input:{
-  //   className: 'form-control',
-  //   default
-  // }
-}
+})
 
 module.exports = UrlBox
 

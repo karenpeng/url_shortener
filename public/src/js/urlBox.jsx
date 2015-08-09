@@ -19,7 +19,7 @@ var UrlBox = React.createClass({
       //check url validation in frontend
       if(!isUrl(data)) {
         this.setState({
-          errorMsg: 'Unable to shorten that link. It is not a valid url.',
+          errorMsg: 'Unable to shorten invalid url. ಠ~ಠ',
           shortUrl: '',
           result: 'form-group has-error has-feedback'
         })
@@ -45,7 +45,7 @@ var UrlBox = React.createClass({
       if(err){
         console.log(err)
         this.setState({
-          errorMsg: 'Unable to shorten that link. It is not a valid url.',
+          errorMsg: 'Unable to shorten invalid url. ಠ~ಠ',
           shortUrl: '',
           result: 'form-group has-error has-feedback'
         })
@@ -65,10 +65,10 @@ var UrlBox = React.createClass({
   render: function(){
     return(
       <div className={this.state.result}>
-         <InputBox 
+         <InputBox
            submit = {this.handleSubmit} typing={this.handleTyping}
-         ></InputBox>
-         <OutputBox shortUrl = {this.state.shortUrl} errorMsg = {this.state.errorMsg}></OutputBox>
+           shortUrl = {this.state.shortUrl} errorMsg = {this.state.errorMsg}>
+         </InputBox>
       </div>
     )
   }
@@ -77,75 +77,77 @@ var UrlBox = React.createClass({
 var InputBox = React.createClass({
   propTypes: {
     submit: React.PropTypes.func.isRequired,
-    typing: React.PropTypes.func.isRequired
+    typing: React.PropTypes.func.isRequired,
+    shortUrl: React.PropTypes.string.isRequired,
+    errorMsg: React.PropTypes.string.isRequired
   },
   getInitialState: function(){
     return{
-      url: '',
-      clearable: false
+      url: ''
     }
   },
   handleChange: function(e){
     this.setState({
-      url: e.target.value,
-      clearable: false
+      url: e.target.value
     })
     this.props.typing()
   },
-  handleClear: function(){
-    this.setState({
-      clearable: false,
-      url: ''
-    })
-  },
-  handleClick: function(e){
+  handleSubmit: function(e){
     e.preventDefault()
     this.props.submit(this.state.url)
-    this.setState({
-      clearable: true
-    })
   },
-  render: function(){
-    return(
-      <form>
-        <input className='form-control' type='text' placeholder='Pasted a link to shorten it'
-        onChange={this.handleChange} value={this.state.url} />
-        <br/>
-        <button 
-          className={this.state.clearable? style.button.normal : style.button.primary} 
-          disabled={this.state.url.length === 0} 
-          onClick={this.state.clearable? this.handleClear : this.handleClick}>
-          {this.state.clearable? 'clear' : 'shorten'}
-        </button>            
-      </form>
-    )
-  }
-})
+  handleClear: function(){
+    this.setState({
+      url: ''
+    })
+    this.props.typing()
+  },
+  handleCopy: function(){
 
-var OutputBox = React.createClass({
-  PropTypes: {
-    shortUrl: React.PropTypes.string.isRequired,
-    errorMsg: React.PropTypes.string.isRequired
   },
   render: function(){
     return(
       <div>
-        <p>{this.props.errorMsg}</p>
-        <a href={this.props.shortUrl}>{this.props.shortUrl}</a>
+
+        <form className='input-group'>
+
+          <input className='form-control' type='text' placeholder='Pasted a link to shorten it'
+            onChange={this.handleChange} 
+            value={this.props.shortUrl.length > 0 ? this.props.shortUrl : this.state.url} />
+
+          <span className='input-group-btn'>
+            <button 
+              disabled={this.state.url.length === 0}
+              className={
+                this.props.shortUrl.length > 0 ? 'btn btn-success' : (
+                    this.props.errorMsg.length > 0 ? 'btn btn-default' : 'btn btn-primary'
+                  )
+              }  
+              onClick={
+                this.props.shortUrl.length > 0 ? this.handleCopy : (
+                    this.props.errorMsg.length > 0 ? this.handleClear : this.handleSubmit
+                  )
+              }>
+              {
+               this.props.shortUrl.length > 0 ? 'copy' : (
+                  this.props.errorMsg.length > 0 ? 'clear' : 'shorten'
+                )
+              }
+            </button>
+          </span>
+                   
+        </form>
+
+        <div className='outputBox'>
+          <div className={this.props.errorMsg.length > 0 ? 'alert alert-danger' : ''}>
+            {this.props.errorMsg}
+          </div>
+        </div>
+
       </div>
     )
   }
-})
 
-var style = {
-  button: {
-    primary: 'btn btn-primary',
-    normal: 'btn btn-default'
-  }//,
-  // input:{
-  //   className: 'form-control',
-  //   default
-  // }
-}
+})
 
 module.exports = UrlBox

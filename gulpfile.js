@@ -22,7 +22,7 @@ gulp.task('browserify', function() {
 
 gulp.task('watch', function(){
   console.log('watching...')
-  var watcher = gulp.watch('./public/src/js/*.js', ['browserify'])
+  var watcher = gulp.watch('./public/src/js/*jsx', ['browserify'])
   watcher.on('change', function(event) {
     console.log('File ' + event.path + ' was ' + event.type + ', running tasks...')
   })

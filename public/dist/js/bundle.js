@@ -21256,15 +21256,9 @@ module.exports = function(arr, fn, initial){
 var React = require('react')
 var UrlBox = require('./urlBox.jsx')
 
-// module.exports = function(data, containerId){
-//   var container = document.getElementById(containerId || 'container')
-//   React.render(<
-//     <UrlBox postUrl=data.postUrl port=data.port />,
-//     container)
-// }
-
-  var container = document.getElementById('container')
-  React.render(React.createElement(UrlBox, {postUrl: '/shorten', port: window.port}), container)
+var container = document.getElementById('container')
+//@TODO: figure out how to parse string
+React.render(React.createElement(UrlBox, {postUrl: '/shorten', port: window.port}), container)
 
 },{"./urlBox.jsx":162,"react":156}],162:[function(require,module,exports){
 var React = require('react')
@@ -21280,7 +21274,8 @@ var UrlBox = React.createClass({displayName: "UrlBox",
   getInitialState: function(){
     return{
       shortUrl: '',
-      errorMsg: ''
+      errorMsg: '',
+      result: ''
     }
   },
   handleSubmit: function(data){
@@ -21288,11 +21283,19 @@ var UrlBox = React.createClass({displayName: "UrlBox",
       if(!isUrl(data)) {
         this.setState({
           errorMsg: 'Unable to shorten that link. It is not a valid url.',
-          shortUrl: ''
+          shortUrl: '',
+          result: 'form-group has-error has-feedback'
         })
         return
       }
       this.sendUrlToServer(data)
+  },
+  handleTyping: function(){
+    this.setState({
+      shortUrl: '',
+      errorMsg: '',
+      result: ''
+    })
   },
   sendUrlToServer: function(longURL){
       request
@@ -21306,14 +21309,15 @@ var UrlBox = React.createClass({displayName: "UrlBox",
         console.log(err)
         this.setState({
           errorMsg: 'Unable to shorten that link. It is not a valid url.',
-          shortUrl: ''
+          shortUrl: '',
+          result: 'form-group has-error has-feedback'
         })
         return
       }
-      console.log(res)
       this.setState({
-        shortUrl: 'http://localhost:' +this.props.port +'/' + res.body.short,
-        errorMsg: ''
+        shortUrl: 'http://localhost:' + this.props.port +'/' + res.body.short,
+        errorMsg: '',
+        result: 'form-group has-success has-feedback'
       })
     }.bind(this))
 
@@ -21323,8 +21327,10 @@ var UrlBox = React.createClass({displayName: "UrlBox",
   // },
   render: function(){
     return(
-      React.createElement("div", {className: "UrlBox"}, 
-         React.createElement(InputBox, {haha: this.handleSubmit}), 
+      React.createElement("div", {className: this.state.result}, 
+         React.createElement(InputBox, {
+           submit: this.handleSubmit, typing: this.handleTyping
+         }), 
          React.createElement(OutputBox, {shortUrl: this.state.shortUrl, errorMsg: this.state.errorMsg})
       )
     )
@@ -21333,7 +21339,8 @@ var UrlBox = React.createClass({displayName: "UrlBox",
 
 var InputBox = React.createClass({displayName: "InputBox",
   propTypes: {
-    haha: React.PropTypes.func.isRequired
+    submit: React.PropTypes.func.isRequired,
+    typing: React.PropTypes.func.isRequired
   },
   getInitialState: function(){
     return{
@@ -21344,23 +21351,20 @@ var InputBox = React.createClass({displayName: "InputBox",
     this.setState({
       url: e.target.value
     })
-  },
-  handleClear: function(e){
-    e.preventDefault()
-    this.setState({
-      url: ''
-    })
+    this.props.typing()
   },
   handleClick: function(e){
     e.preventDefault()
-    this.props.haha(this.state.url)
+    this.props.submit(this.state.url)
   },
   render: function(){
     return(
       React.createElement("form", null, 
-        React.createElement("input", {type: "text", onChange: this.handleChange, value: this.state.url}), React.createElement("br", null), 
-        React.createElement("button", {disabled: this.state.url.length === 0, onClick: this.handleClick}, "shorten"), 
-        React.createElement("button", {disabled: this.state.url.length === 0, onClick: this.handleClear}, "clear")
+        React.createElement("input", {className: "form-control", type: "text", placeholder: "Pasted a link to shorten it", 
+        onChange: this.handleChange, value: this.state.url}), 
+        React.createElement("br", null), 
+        React.createElement("button", {type: "submit", className: style.button.primary, 
+        disabled: this.state.url.length === 0, onClick: this.handleClick}, "shorten")
       )
     )
   }
@@ -21380,6 +21384,17 @@ var OutputBox = React.createClass({displayName: "OutputBox",
     )
   }
 })
+
+var style = {
+  button: {
+    primary: 'btn btn-primary',
+    normal: 'btn btn-default'
+  }//,
+  // input:{
+  //   className: 'form-control',
+  //   default
+  // }
+}
 
 module.exports = UrlBox
 

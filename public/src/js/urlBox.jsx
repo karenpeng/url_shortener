@@ -1,5 +1,6 @@
 var React = require('react')
-var request = require('superagent');
+var request = require('superagent')
+var isUrl = require('valid-url').is_http_uri
 var longURL = ''
 
 var UrlBox = React.createClass({
@@ -14,10 +15,17 @@ var UrlBox = React.createClass({
     }
   },
   handleSubmit: function(data){
-      longURL = data
-      this.sendUrlToServer()
+      //check url validation in frontend
+      if(!isUrl(data)) {
+        this.setState({
+          errorMsg: 'Unable to shorten that link. It is not a valid url.',
+          shortUrl: ''
+        })
+        return
+      }
+      this.sendUrlToServer(data)
   },
-  sendUrlToServer: function(){
+  sendUrlToServer: function(longURL){
       request
     .post(this.props.url)
     .send(JSON.stringify({

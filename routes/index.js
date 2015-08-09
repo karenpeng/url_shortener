@@ -9,7 +9,6 @@ var Query = require('./../db/query.js')
 
 // var longHash = {}
 // var shortHash = {}
-var count = 0
 
 router.get('/', function(req, res){
   
@@ -22,6 +21,7 @@ router.get('/', function(req, res){
 
 router.post('/shorten', function(req, res, next){
 
+  //check url validation in backend
   if(!isUrl(req.body.data)) {
     return res.status(500).send({})
   }
@@ -44,10 +44,11 @@ router.post('/shorten', function(req, res, next){
       return res.send({short: data[0].short})   
     }
 
-    //@TODO: how could i count from db???
-    var shortURL = createShortURL(++count)
-    Query.addRecord(shortURL, url)
-    res.send({short: shortURL})
+    Record.count({}, function(err, count){
+       var shortURL = createShortURL(count)
+      Query.addRecord(shortURL, url)
+      res.send({short: shortURL})
+    })
 
   })
 

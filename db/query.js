@@ -9,41 +9,6 @@ db.once('open', function callback() {
   console.log('connected to database');
 });
 
-//@TODO
-function getLongFromShort(shortURL, res, next){
-  var query = {'short': shortURL}
-  var select = 'long'
-  var options = {
-    limit: 1
-  }
-  Record.find(query, select, options, function(err, data){
-    if(err){
-      return next(err)
-    }
-    //console.log(data.long)
-    //return data.long
-    //res.send(data)
-  })
-}
-
-function getShortFromLong(longURL, res, next){
-  var query = {'long': longURL}
-  var select = 'short'
-  var options = {
-    limit: 1
-  }
-  Record.find(query, select, options, function(err, data){
-    if(err){
-      return next(err)
-    }
-    // console.log(data.short)
-    // return data.short
-    //res.send(data)
-    //console.log(data[0].short)
-    return data[0].short
-  })
-}
-
 function addRecord(shortURL, longURL){
   var record = new Record()
   record.short = shortURL
@@ -52,7 +17,6 @@ function addRecord(shortURL, longURL){
 }
 
 module.exports = {
-  getLongFromShort: getLongFromShort,
-  getShortFromLong: getShortFromLong,
-  addRecord: addRecord
+  addRecord: addRecord,
+  db: db
 }

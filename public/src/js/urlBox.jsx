@@ -81,18 +81,29 @@ var InputBox = React.createClass({
   },
   getInitialState: function(){
     return{
-      url: ''
+      url: '',
+      clearable: false
     }
   },
   handleChange: function(e){
     this.setState({
-      url: e.target.value
+      url: e.target.value,
+      clearable: false
     })
     this.props.typing()
+  },
+  handleClear: function(){
+    this.setState({
+      clearable: false,
+      url: ''
+    })
   },
   handleClick: function(e){
     e.preventDefault()
     this.props.submit(this.state.url)
+    this.setState({
+      clearable: true
+    })
   },
   render: function(){
     return(
@@ -100,8 +111,12 @@ var InputBox = React.createClass({
         <input className='form-control' type='text' placeholder='Pasted a link to shorten it'
         onChange={this.handleChange} value={this.state.url} />
         <br/>
-        <button type='submit' className={style.button.primary} 
-        disabled={this.state.url.length === 0} onClick={this.handleClick}>shorten</button>            
+        <button 
+          className={this.state.clearable? style.button.normal : style.button.primary} 
+          disabled={this.state.url.length === 0} 
+          onClick={this.state.clearable? this.handleClear : this.handleClick}>
+          {this.state.clearable? 'clear' : 'shorten'}
+        </button>            
       </form>
     )
   }

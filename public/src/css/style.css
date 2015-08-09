@@ -21,3 +21,7 @@ html, body {
   font-size: 80px;
   text-shadow: 0px 0px 20px #aaa;
 }
+
+button{
+  width: 100px;
+}

@@ -5,8 +5,7 @@ var InputBox = require('./InputBox.jsx')
 
 var UrlBox = React.createClass({
   PropTypes:{
-    postUrl: React.PropTypes.string.isRequired,
-    port: React.PropTypes.number.isRequired
+    postUrl: React.PropTypes.string.isRequired
   },
   getInitialState: function(){
     return{

@@ -8,16 +8,16 @@ html, body {
 #main{
   position: absolute;
   width: 600px;
-  height: 400px;
+  height: 300px;
   left: 50%;
   top: 50%;
   margin-left: -300px;
-  margin-top: -200px;
+  margin-top: -150px;
   text-align: center;
 }
 
 #main h1{
-  margin-bottom: 100px;
+  margin-bottom: 90px;
   color: #fff;
   font-size: 80px;
   text-shadow: 0px 0px 20px #aaa;

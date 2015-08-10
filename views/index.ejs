@@ -14,10 +14,21 @@
       <!-- This element's contents will be replaced with your component. -->
     </div>
   </div>
+<script type="text/javascript" src="./lib/ZeroClipboard.Core.min.js"></script>
 <script type="text/javascript">
+  var client = new ZeroClipboard( document.getElementById("fatbutton") );
+  console.log(client)
+  client.on( "ready", function( readyEvent ) {
+   console.log( "ZeroClipboard SWF is ready!" );
 
+    client.on( "aftercopy", function( event ) {
+      // `this` === `client`
+      // `event.target` === the element that was clicked
+      event.target.style.display = "none";
+      console.log("Copied text to clipboard: " + event.data["text/plain"] );
+    } );
+} );
 </script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.2.0/ZeroClipboard.Core.js"></script>
 <script type="text/javascript" src="./dist/js/bundle.js"></script>
 
 </body>

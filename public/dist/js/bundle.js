@@ -21305,7 +21305,7 @@ var InputBox = React.createClass({displayName: "InputBox",
             value: this.props.shortUrl.length > 0 ? this.props.shortUrl : this.state.url}), 
 
           React.createElement("span", {className: "input-group-btn"}, 
-            React.createElement("button", {
+            React.createElement("button", {id: "fatbutton", 
               disabled: this.state.url.length === 0, 
               className: 
                 this.props.shortUrl.length > 0 ? 'btn btn-success' : (

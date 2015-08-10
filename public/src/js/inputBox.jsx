@@ -50,7 +50,7 @@ var InputBox = React.createClass({
             value={this.props.shortUrl.length > 0 ? this.props.shortUrl : this.state.url} />
 
           <span className='input-group-btn'>
-            <button 
+            <button id="fatbutton"
               disabled={this.state.url.length === 0}
               className={
                 this.props.shortUrl.length > 0 ? 'btn btn-success' : (

@@ -34,6 +34,7 @@
     "reactify": "^1.1.1",
     "should": "^7.0.2",
     "superagent": "^1.2.0",
-    "valid-url": "^1.0.9"
+    "valid-url": "^1.0.9",
+    "zeroclipboard": "^2.2.0"
   }
 }

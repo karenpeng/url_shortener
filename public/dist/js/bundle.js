@@ -21254,17 +21254,112 @@ module.exports = function(arr, fn, initial){
 
 },{}],161:[function(require,module,exports){
 var React = require('react')
+
+var InputBox = React.createClass({displayName: "InputBox",
+  propTypes: {
+    submit: React.PropTypes.func.isRequired,
+    typing: React.PropTypes.func.isRequired,
+    shortUrl: React.PropTypes.string.isRequired,
+    errorMsg: React.PropTypes.string.isRequired
+  },
+  getInitialState: function(){
+    return{
+      url: '',
+      copied: false
+    }
+  },
+  handleChange: function(e){
+    this.setState({
+      url: e.target.value,
+      //state is exactly a state machine, you have to reset it, otherwise it won't update
+      //for line 155
+      copied: false
+    })
+    this.props.typing()
+  },
+  handleSubmit: function(e){
+    e.preventDefault()
+    this.props.submit(this.state.url)
+  },
+  handleClear: function(e){
+    e.preventDefault()
+    this.setState({
+      url: ''
+    })
+    this.props.typing()
+  },
+  handleCopy: function(e){
+    e.preventDefault()
+    this.setState({
+      copied: true
+    })
+  },
+  render: function(){
+    return(
+      React.createElement("div", null, 
+
+        React.createElement("form", {className: "input-group"}, 
+
+          React.createElement("input", {className: "form-control", type: "text", placeholder: "Pasted a link to shorten it", 
+            onChange: this.handleChange, 
+            value: this.props.shortUrl.length > 0 ? this.props.shortUrl : this.state.url}), 
+
+          React.createElement("span", {className: "input-group-btn"}, 
+            React.createElement("button", {
+              disabled: this.state.url.length === 0, 
+              className: 
+                this.props.shortUrl.length > 0 ? 'btn btn-success' : (
+                    this.props.errorMsg.length > 0 ? 'btn btn-default' : 'btn btn-primary'
+                  ), 
+              
+              onClick: 
+                this.props.shortUrl.length > 0 ? this.handleCopy : (
+                    this.props.errorMsg.length > 0 ? this.handleClear : this.handleSubmit
+                  )
+               }, 
+                
+                 this.props.shortUrl.length > 0 ? 'copy' : (
+                    this.props.errorMsg.length > 0 ? 'clear' : 'shorten'
+                  )
+                
+            )
+          )
+
+        ), 
+
+        React.createElement("div", {className: "outputBox"}, 
+          React.createElement("div", {className: this.props.errorMsg.length > 0 ? 'alert alert-danger' : (
+              this.state.copied ? 'alert alert-success' : ''
+            )
+        }, 
+          this.props.errorMsg.length > 0 ? this.props.errorMsg : (
+              this.state.copied ? 'copy successfully.' : ''
+            )
+          
+          )
+        )
+
+      )
+    )
+  }
+
+})
+
+module.exports = InputBox
+
+},{"react":156}],162:[function(require,module,exports){
+var React = require('react')
 var UrlBox = require('./urlBox.jsx')
 
 var container = document.getElementById('container')
 //@TODO: figure out how to parse string
 React.render(React.createElement(UrlBox, {postUrl: '/shorten', port: window.port}), container)
 
-},{"./urlBox.jsx":162,"react":156}],162:[function(require,module,exports){
+},{"./urlBox.jsx":163,"react":156}],163:[function(require,module,exports){
 var React = require('react')
 var request = require('superagent')
 var isUrl = require('valid-url').is_http_uri
-var longURL = ''
+var InputBox = require('./InputBox.jsx')
 
 var UrlBox = React.createClass({displayName: "UrlBox",
   PropTypes:{
@@ -21337,95 +21432,8 @@ var UrlBox = React.createClass({displayName: "UrlBox",
   }
 })
 
-var InputBox = React.createClass({displayName: "InputBox",
-  propTypes: {
-    submit: React.PropTypes.func.isRequired,
-    typing: React.PropTypes.func.isRequired,
-    shortUrl: React.PropTypes.string.isRequired,
-    errorMsg: React.PropTypes.string.isRequired
-  },
-  getInitialState: function(){
-    return{
-      url: '',
-      copied: false
-    }
-  },
-  handleChange: function(e){
-    this.setState({
-      url: e.target.value,
-      copied: false
-    })
-    this.props.typing()
-  },
-  handleSubmit: function(e){
-    e.preventDefault()
-    this.props.submit(this.state.url)
-  },
-  handleClear: function(e){
-    e.preventDefault()
-    this.setState({
-      url: ''
-    })
-    this.props.typing()
-  },
-  handleCopy: function(e){
-    e.preventDefault()
-    console.log('copied')
-    this.setState({
-      copied: true
-    })
-  },
-  render: function(){
-    return(
-      React.createElement("div", null, 
 
-        React.createElement("form", {className: "input-group"}, 
-
-          React.createElement("input", {className: "form-control", type: "text", placeholder: "Pasted a link to shorten it", 
-            onChange: this.handleChange, 
-            value: this.props.shortUrl.length > 0 ? this.props.shortUrl : this.state.url}), 
-
-          React.createElement("span", {className: "input-group-btn"}, 
-            React.createElement("button", {
-              disabled: this.state.url.length === 0, 
-              className: 
-                this.props.shortUrl.length > 0 ? 'btn btn-success' : (
-                    this.props.errorMsg.length > 0 ? 'btn btn-default' : 'btn btn-primary'
-                  ), 
-              
-              onClick: 
-                this.props.shortUrl.length > 0 ? this.handleCopy : (
-                    this.props.errorMsg.length > 0 ? this.handleClear : this.handleSubmit
-                  )
-               }, 
-                
-                 this.props.shortUrl.length > 0 ? 'copy' : (
-                    this.props.errorMsg.length > 0 ? 'clear' : 'shorten'
-                  )
-                
-            )
-          )
-
-        ), 
-
-        React.createElement("div", {className: "outputBox"}, 
-          React.createElement("div", {className: this.props.errorMsg.length > 0 ? 'alert alert-danger' : (
-              this.state.copied ? 'alert alert-success' : ''
-            )
-        }, 
-          this.props.errorMsg.length > 0 ? this.props.errorMsg : (
-              this.state.copied ? 'copy successfully.' : ''
-            )
-          
-          )
-        )
-
-      )
-    )
-  }
-
-})
 
 module.exports = UrlBox
 
-},{"react":156,"superagent":157,"valid-url":160}]},{},[161])
+},{"./InputBox.jsx":161,"react":156,"superagent":157,"valid-url":160}]},{},[162])

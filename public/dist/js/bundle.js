@@ -21353,7 +21353,7 @@ var UrlBox = require('./urlBox.jsx')
 
 var container = document.getElementById('container')
 //@TODO: figure out how to parse string
-React.render(React.createElement(UrlBox, {postUrl: '/shorten', port: window.port}), container)
+React.render(React.createElement(UrlBox, {postUrl: '/shorten'}), container)
 
 },{"./urlBox.jsx":163,"react":156}],163:[function(require,module,exports){
 var React = require('react')
@@ -21363,8 +21363,7 @@ var InputBox = require('./InputBox.jsx')
 
 var UrlBox = React.createClass({displayName: "UrlBox",
   PropTypes:{
-    postUrl: React.PropTypes.string.isRequired,
-    port: React.PropTypes.number.isRequired
+    postUrl: React.PropTypes.string.isRequired
   },
   getInitialState: function(){
     return{

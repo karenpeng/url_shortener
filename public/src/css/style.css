@@ -30,7 +30,7 @@ button{
   margin-top: 20px;
 }
 
-.alert-danger{
+.alert{
  -webkit-transition: opacity 5s ease-in;
     -moz-transition: opacity 5s ease-in;
     -ms-transition: opacity 5s ease-in;

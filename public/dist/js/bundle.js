@@ -21278,6 +21278,13 @@ var UrlBox = React.createClass({displayName: "UrlBox",
       result: ''
     }
   },
+  handleTyping: function(){
+    this.setState({
+      shortUrl: '',
+      errorMsg: '',
+      result: ''
+    })
+  },
   handleSubmit: function(data){
       //check url validation in frontend
       if(!isUrl(data)) {
@@ -21289,13 +21296,6 @@ var UrlBox = React.createClass({displayName: "UrlBox",
         return
       }
       this.sendUrlToServer(data)
-  },
-  handleTyping: function(){
-    this.setState({
-      shortUrl: '',
-      errorMsg: '',
-      result: ''
-    })
   },
   sendUrlToServer: function(longURL){
       request
@@ -21347,13 +21347,13 @@ var InputBox = React.createClass({displayName: "InputBox",
   getInitialState: function(){
     return{
       url: '',
-      buttonValue: 'shorten'
+      copied: false
     }
   },
   handleChange: function(e){
     this.setState({
       url: e.target.value,
-      buttonValue: 'shorten'
+      copied: false
     })
     this.props.typing()
   },
@@ -21361,27 +21361,18 @@ var InputBox = React.createClass({displayName: "InputBox",
     e.preventDefault()
     this.props.submit(this.state.url)
   },
-  handleClear: function(){
+  handleClear: function(e){
+    e.preventDefault()
     this.setState({
-      url: '',
-      buttonValue: 'shorten'
+      url: ''
     })
     this.props.typing()
   },
-  handleCopy: function(){
-
-  },
-  something: function(){
-    if(this.props.shortUrl.length > 0){
-      this.setState({buttonValue: 'copy'})
-      return
-    }
-    if(this.props.errorMsg.length > 0){
-      this.setState({buttonValue: 'clear'})
-      return
-    }
+  handleCopy: function(e){
+    e.preventDefault()
+    console.log('copied')
     this.setState({
-      buttonValue: 'shorten'
+      copied: true
     })
   },
   render: function(){
@@ -21389,9 +21380,11 @@ var InputBox = React.createClass({displayName: "InputBox",
       React.createElement("div", null, 
 
         React.createElement("form", {className: "input-group"}, 
+
           React.createElement("input", {className: "form-control", type: "text", placeholder: "Pasted a link to shorten it", 
             onChange: this.handleChange, 
             value: this.props.shortUrl.length > 0 ? this.props.shortUrl : this.state.url}), 
+
           React.createElement("span", {className: "input-group-btn"}, 
             React.createElement("button", {
               disabled: this.state.url.length === 0, 
@@ -21404,19 +21397,26 @@ var InputBox = React.createClass({displayName: "InputBox",
                 this.props.shortUrl.length > 0 ? this.handleCopy : (
                     this.props.errorMsg.length > 0 ? this.handleClear : this.handleSubmit
                   )
-              }, 
-              
+               }, 
+                
                  this.props.shortUrl.length > 0 ? 'copy' : (
                     this.props.errorMsg.length > 0 ? 'clear' : 'shorten'
                   )
-              
+                
             )
           )
+
         ), 
 
         React.createElement("div", {className: "outputBox"}, 
-          React.createElement("div", {className: this.props.errorMsg.length > 0 ? 'alert alert-danger' : ''}, 
-            this.props.errorMsg
+          React.createElement("div", {className: this.props.errorMsg.length > 0 ? 'alert alert-danger' : (
+              this.state.copied ? 'alert alert-success' : ''
+            )
+        }, 
+          this.props.errorMsg.length > 0 ? this.props.errorMsg : (
+              this.state.copied ? 'copy successfully.' : ''
+            )
+          
           )
         )
 

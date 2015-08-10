@@ -15,6 +15,13 @@ var UrlBox = React.createClass({
       result: ''
     }
   },
+  handleTyping: function(){
+    this.setState({
+      shortUrl: '',
+      errorMsg: '',
+      result: ''
+    })
+  },
   handleSubmit: function(data){
       //check url validation in frontend
       if(!isUrl(data)) {
@@ -26,13 +33,6 @@ var UrlBox = React.createClass({
         return
       }
       this.sendUrlToServer(data)
-  },
-  handleTyping: function(){
-    this.setState({
-      shortUrl: '',
-      errorMsg: '',
-      result: ''
-    })
   },
   sendUrlToServer: function(longURL){
       request
@@ -83,12 +83,16 @@ var InputBox = React.createClass({
   },
   getInitialState: function(){
     return{
-      url: ''
+      url: '',
+      copied: false
     }
   },
   handleChange: function(e){
     this.setState({
-      url: e.target.value
+      url: e.target.value,
+      //state is exactly a state machine, you have to reset it, otherwise it won't update
+      //for line 155
+      copied: false
     })
     this.props.typing()
   },
@@ -96,14 +100,18 @@ var InputBox = React.createClass({
     e.preventDefault()
     this.props.submit(this.state.url)
   },
-  handleClear: function(){
+  handleClear: function(e){
+    e.preventDefault()
     this.setState({
       url: ''
     })
     this.props.typing()
   },
-  handleCopy: function(){
-
+  handleCopy: function(e){
+    e.preventDefault()
+    this.setState({
+      copied: true
+    })
   },
   render: function(){
     return(
@@ -127,20 +135,26 @@ var InputBox = React.createClass({
                 this.props.shortUrl.length > 0 ? this.handleCopy : (
                     this.props.errorMsg.length > 0 ? this.handleClear : this.handleSubmit
                   )
-              }>
-              {
-               this.props.shortUrl.length > 0 ? 'copy' : (
-                  this.props.errorMsg.length > 0 ? 'clear' : 'shorten'
-                )
-              }
+               }>
+                {
+                 this.props.shortUrl.length > 0 ? 'copy' : (
+                    this.props.errorMsg.length > 0 ? 'clear' : 'shorten'
+                  )
+                }
             </button>
           </span>
-                   
+
         </form>
 
         <div className='outputBox'>
-          <div className={this.props.errorMsg.length > 0 ? 'alert alert-danger' : ''}>
-            {this.props.errorMsg}
+          <div className={this.props.errorMsg.length > 0 ? 'alert alert-danger' : (
+              this.state.copied ? 'alert alert-success' : ''
+            )
+        }>
+          {this.props.errorMsg.length > 0 ? this.props.errorMsg : (
+              this.state.copied ? 'copy successfully.' : ''
+            )
+          }
           </div>
         </div>
 

@@ -7,11 +7,11 @@ html, body {
 
 #main{
   position: absolute;
-  width: 800px;
+  width: 600px;
   height: 400px;
   left: 50%;
   top: 50%;
-  margin-left: -400px;
+  margin-left: -300px;
   margin-top: -200px;
   text-align: center;
 }

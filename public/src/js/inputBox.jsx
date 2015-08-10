@@ -53,28 +53,22 @@ var InputBox = React.createClass({
       onclick = this.handleCopy;
       btnDisplay = 'copy';
     }
-    else if (this.props.errorMsg) {
+    if (this.props.errorMsg) {
       btnClass = 'btn btn-default'
       onclick = this.handleClear
       btnDisplay = 'clear'
-    }
-    else{
-      btnClass = 'btn btn-primary'
-      onclick = this.handleSubmit
-      btnDisplay = 'shorten'
     }
 
     var outputClass = ''
     if (this.props.errorMsg.length) {
       outputClass = 'alert alert-danger'
     }
-    else if (this.state.copied) {
+    if (this.state.copied) {
       outputClass = 'alert alert-success'
     }
-    else outputClass = ''
     
     var outputDisplay = this.props.errorMsg || 
-        (this.state.copied ? 'copy successfully.' : '')
+        (this.state.copied ? 'copied successfully.' : '')
 
     return(
       <div>

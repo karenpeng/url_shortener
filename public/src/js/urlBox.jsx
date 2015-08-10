@@ -3,6 +3,9 @@ var request = require('superagent')
 var isUrl = require('valid-url').is_http_uri
 var InputBox = require('./InputBox.jsx')
 
+var protectUrl =  'http://' + location.host + '/'
+var protectRegex = new RegExp(protectUrl, 'g')
+
 var UrlBox = React.createClass({
   PropTypes:{
     postUrl: React.PropTypes.string.isRequired
@@ -23,7 +26,7 @@ var UrlBox = React.createClass({
   },
   handleSubmit: function(data){
       //check url validation in frontend
-      if(!isUrl(data)) {
+      if(!isUrl(data) || data.match(protectRegex)) {
         this.setState({
           errorMsg: 'Unable to shorten invalid url. ಠ~ಠ',
           shortUrl: '',

@@ -21300,7 +21300,7 @@ var InputBox = React.createClass({displayName: "InputBox",
 
         React.createElement("form", {className: "input-group"}, 
 
-          React.createElement("input", {className: "form-control", type: "text", placeholder: "Pasted a link to shorten it", 
+          React.createElement("input", {className: "form-control", type: "text", placeholder: "Paste a link to shorten it", 
             onChange: this.handleChange, 
             value: this.props.shortUrl.length > 0 ? this.props.shortUrl : this.state.url}), 
 

@@ -23877,6 +23877,42 @@ var InputBox = React.createClass({displayName: "InputBox",
     })
   },
   render: function(){
+    var value = this.props.shortUrl || this.state.url
+    
+    var disable = !value
+    
+    var btnClass = 'btn btn-primary'
+    var onclick = this.handleSubmit
+    var btnDisplay = 'shorten'
+    
+    if (this.props.shortUrl) {
+      btnClass = 'btn btn-success'
+      onclick = this.handleCopy;
+      btnDisplay = 'copy';
+    }
+    else if (this.props.errorMsg) {
+      btnClass = 'btn btn-default'
+      onclick = this.handleClear
+      btnDisplay = 'clear'
+    }
+    else{
+      btnClass = 'btn btn-primary'
+      onclick = this.handleSubmit
+      btnDisplay = 'shorten'
+    }
+
+    var outputClass = ''
+    if (this.props.errorMsg.length) {
+      outputClass = 'alert alert-danger'
+    }
+    else if (this.state.copied) {
+      outputClass = 'alert alert-success'
+    }
+    else outputClass = ''
+    
+    var outputDisplay = this.props.errorMsg || 
+        (this.state.copied ? 'copy successfully.' : '')
+
     return(
       React.createElement("div", null, 
 
@@ -23888,43 +23924,24 @@ var InputBox = React.createClass({displayName: "InputBox",
 
           React.createElement("span", {className: "input-group-btn"}, 
             React.createElement("button", {id: "fatbutton", 
-              disabled: this.state.url.length === 0, 
-              className: 
-                this.props.shortUrl.length > 0 ? 'btn btn-success' : (
-                    this.props.errorMsg.length > 0 ? 'btn btn-default' : 'btn btn-primary'
-                  ), 
-              
-              onClick: 
-                this.props.shortUrl.length > 0 ? this.handleCopy : (
-                    this.props.errorMsg.length > 0 ? this.handleClear : this.handleSubmit
-                  )
-               }, 
-                
-                 this.props.shortUrl.length > 0 ? 'copy' : (
-                    this.props.errorMsg.length > 0 ? 'clear' : 'shorten'
-                  )
-                
+              disabled: disable, 
+              className: btnClass, 
+              onClick: onclick}, 
+              btnDisplay
             )
           )
 
         ), 
 
         React.createElement("div", {className: "outputBox"}, 
-          React.createElement("div", {className: this.props.errorMsg.length > 0 ? 'alert alert-danger' : (
-              this.state.copied ? 'alert alert-success' : ''
-            )
-        }, 
-          this.props.errorMsg.length > 0 ? this.props.errorMsg : (
-              this.state.copied ? 'copy successfully.' : ''
-            )
-          
+          React.createElement("div", {className: outputClass}, 
+          outputDisplay
           )
         )
 
       )
     )
   }
-
 })
 
 module.exports = InputBox

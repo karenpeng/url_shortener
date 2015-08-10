@@ -1,0 +1,5 @@
+{
+  "port": 1235,
+  "db":"mongodb://karen:160230@ds047602.mongolab.com:47602/shorturl",
+  "postURL": "shorten"
+}

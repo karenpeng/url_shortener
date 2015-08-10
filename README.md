@@ -1,13 +1,11 @@
 ## this is a url-shortener exercise
 
-frontend with React.js, backend with Node.js
+made with React.js and Node.js
 
-- [x] get it working
-- [ ] fix bugs in the issues
-- [ ] research on questions in issues
+- [x] backend error handling
+- [x] optimize user experience
+- [ ] try server side rendering maybe
 
 ###usage
 
-```npm install```
-
-```node app```
+```gulp```

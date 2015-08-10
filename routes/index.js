@@ -11,10 +11,7 @@ router.get('/', function(req, res){
   
   res.render('index', {
     title: 'Short.ly',
-    data:{
-      postUrl: '/shorten',
-      port: process.env.PORT || cfg.port 
-    }
+    postUrl: '/shorten'
   })
 })
 

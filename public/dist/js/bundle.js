@@ -21353,7 +21353,7 @@ var UrlBox = require('./urlBox.jsx')
 
 var container = document.getElementById('container')
 //@TODO: figure out how to parse string
-React.render(React.createElement(UrlBox, {postUrl: '/shorten'}), container)
+React.render(React.createElement(UrlBox, {postUrl: postUrl}), container)
 
 },{"./urlBox.jsx":163,"react":156}],163:[function(require,module,exports){
 var React = require('react')

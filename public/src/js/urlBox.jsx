@@ -66,14 +66,12 @@ var UrlBox = React.createClass({
     return(
       <div className={this.state.result}>
          <InputBox
-           submit = {this.handleSubmit} typing={this.handleTyping}
-           shortUrl = {this.state.shortUrl} errorMsg = {this.state.errorMsg}>
+           submit={this.handleSubmit} typing={this.handleTyping}
+           shortUrl={this.state.shortUrl} errorMsg={this.state.errorMsg}>
          </InputBox>
       </div>
     )
   }
 })
-
-
 
 module.exports = UrlBox

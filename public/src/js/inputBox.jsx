@@ -17,7 +17,7 @@ var InputBox = React.createClass({
     this.setState({
       url: e.target.value,
       //state is exactly a state machine, you have to reset it, otherwise it won't update
-      //for line 155
+      //for line 81
       copied: false
     })
     this.props.typing()

@@ -13,7 +13,7 @@ router.get('/', function(req, res){
     title: 'Short.ly',
     data:{
       postUrl: '/shorten',
-      port: cfg.port 
+      port: process.env.PORT || cfg.port 
     }
   })
 })

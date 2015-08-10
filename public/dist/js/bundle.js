@@ -21272,7 +21272,7 @@ var InputBox = React.createClass({displayName: "InputBox",
     this.setState({
       url: e.target.value,
       //state is exactly a state machine, you have to reset it, otherwise it won't update
-      //for line 155
+      //for line 81
       copied: false
     })
     this.props.typing()
@@ -21410,7 +21410,7 @@ var UrlBox = React.createClass({displayName: "UrlBox",
         return
       }
       this.setState({
-        shortUrl: 'http://localhost:' + this.props.port +'/' + res.body.short,
+        shortUrl: 'http://' + location.host + '/' + res.body.short,
         errorMsg: '',
         result: 'form-group has-success has-feedback'
       })
@@ -21431,8 +21431,6 @@ var UrlBox = React.createClass({displayName: "UrlBox",
     )
   }
 })
-
-
 
 module.exports = UrlBox
 

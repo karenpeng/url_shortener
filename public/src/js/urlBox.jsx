@@ -52,7 +52,7 @@ var UrlBox = React.createClass({
         return
       }
       this.setState({
-        shortUrl: 'http://localhost:' + this.props.port +'/' + res.body.short,
+        shortUrl: 'http://' + location.host + '/' + res.body.short,
         errorMsg: '',
         result: 'form-group has-success has-feedback'
       })

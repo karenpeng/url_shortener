@@ -41,9 +41,7 @@ if (app.get('env') === 'development') {
     res.status(err.status || 500)
     console.log(err)
     res.render('error', {
-      title: 'short.ly',
-      message: err.message,
-      error: err
+      title: 'Short.ly'
     })
   })
 }
@@ -53,9 +51,7 @@ if (app.get('env') === 'development') {
 app.use(function(err, req, res, next) {
   res.status(err.status || 500)
   res.render('error', {
-    title: 'short.ly',
-    message: err.message,
-    error: {}
+    title: 'Short.ly'
   })
 })
 
@@ -63,5 +59,3 @@ var port = process.env.PORT || config.port
 app.listen(port, function(){
   console.log('listening on ' + port)
 })
-
-module.exports = app

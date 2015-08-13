@@ -1,5 +1,6 @@
 var base62 = require('base62')
 
+//reference from: http://www.zhihu.com/question/29270034
 function createShortURL(id){
 
   var weirdId = Math.abs(permuteId(id))

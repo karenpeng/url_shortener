@@ -9,7 +9,7 @@ db.once('open', function callback() {
   console.log('connected to database');
 });
 
-function getLongFromShort(shortURL, callback){
+exports.getLongFromSgetLongFromShort = function(shortURL, callback){
   var query = {'short': shortURL}
   var select = 'long'
   var options = {
@@ -18,7 +18,7 @@ function getLongFromShort(shortURL, callback){
   Record.find(query, select, options, callback)
 }
 
-function getShortFromLong(longURL, callback){
+exports.getShortFromLong = function(longURL, callback){
   var query = {'long': longURL}
   var select = 'short'
   var options = {
@@ -27,20 +27,13 @@ function getShortFromLong(longURL, callback){
   Record.find(query, select, options, callback)
 }
 
-function countCollection(callback){
+exports.countCollection = function(callback){
   Record.count({}, callback)
 }
 
-function addRecord(shortURL, longURL){
+exports.addRecord = function(shortURL, longURL){
   var record = new Record()
   record.short = shortURL
   record.long = longURL
   record.save()
-}
-
-module.exports = {
-  getLongFromShort: getLongFromShort,
-  getShortFromLong: getShortFromLong,
-  countCollection: countCollection,
-  addRecord: addRecord
 }

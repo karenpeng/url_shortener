@@ -27,7 +27,7 @@ var UrlBox = React.createClass({
   },
   handleSubmit: function(data){
       //check url validation in frontend
-      if(!isUrl(data) || data.match(protectRegex) !== null) {
+      if(!isUrl(data) || data.match(protectRegex) !== null){
         this.setState({
           errorMsg: 'Unable to shorten invalid url. ಠ~ಠ',
           shortUrl: '',

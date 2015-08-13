@@ -2,6 +2,7 @@ var React = require('react')
 var request = require('superagent')
 var isUrl = require('valid-url').is_http_uri
 var InputBox = require('./InputBox.jsx')
+var ZeroClipboard = require('zeroclipboard')
 
 var protectUrl =  'http://' + location.host
 var protectRegex = new RegExp(protectUrl, 'g')
@@ -61,9 +62,24 @@ var UrlBox = React.createClass({
     }.bind(this))
 
   },
-  // componentDidMount: function () {
-  //   this.sendUrlToServer()
-  // },
+  componentDidMount: function () {
+    //this.sendUrlToServer()
+    var bt = document.getElementById('fatbutton')
+
+    bt.setAttribute("data-clipboard-text", 'Default clipboard text from attribute')
+    bt.setAttribute('data-clipboard-target', 'thininput')
+
+    var client = new ZeroClipboard( document.getElementById("fatbutton") )
+    console.log(client)
+    client.on( "ready", function( readyEvent ) {
+      console.log( "ZeroClipboard SWF is ready!" )
+      client.on( "aftercopy", function( event ) {
+        // `this` === `client`
+        // `event.target` === the element that was clicked
+        console.log("Copied text to clipboard: " + event.data["text/plain"] )
+      })
+    })
+  },
   render: function(){
     return(
       <div className={this.state.result}>

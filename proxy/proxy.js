@@ -6,7 +6,7 @@ mongoose.connect(cfg.db)
 var db = mongoose.connection
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function callback() {
-  console.log('connected to database');
+  console.log('connected to database')
 });
 
 exports.getLongFromSgetLongFromShort = function(shortURL, callback){

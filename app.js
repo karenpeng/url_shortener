@@ -5,7 +5,7 @@ var bodyParser = require('body-parser')
 var cookieParser = require('cookie-parser')
 var ejs = require('ejs')
 
-var routes = require('./server/routes/index')
+var routes = require('./server/routes.js')
 var config = require('./server/config.json')
 
 app.set('env', 'development');

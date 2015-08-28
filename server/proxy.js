@@ -1,6 +1,6 @@
 var mongoose = require('mongoose')
-var Record = require('./../model/record.js')
-var cfg = require('./../config.json')
+var Record = require('./model.js')
+var cfg = require('./config.json')
 
 mongoose.connect(cfg.db)
 var db = mongoose.connection

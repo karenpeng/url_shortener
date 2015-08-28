@@ -1,11 +1,11 @@
 var express = require('express')
 var router = express.Router()
-var cfg = require('./../config.json')
+var cfg = require('./config.json')
 
 var isUrl = require('valid-url').is_http_uri
-var createShortURL = require('./../utils/index')
+var createShortURL = require('./util.js')
 
-var proxy = require('./../proxy/proxy.js')
+var proxy = require('./proxy.js')
 
 router.get('/', function(req, res){
   

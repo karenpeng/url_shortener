@@ -160,7 +160,7 @@ var UrlBox = React.createClass({displayName: "UrlBox",
     .set('Content-Type', 'application/json')
     .end(function(err, res){
       if(err){
-        console.log(err)
+        console.log(err.stack)
         this.setState({
           errorMsg: 'Unable to shorten invalid url. ಠ~ಠ',
           shortUrl: '',

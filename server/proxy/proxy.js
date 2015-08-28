@@ -9,7 +9,7 @@ db.once('open', function callback() {
   console.log('connected to database')
 });
 
-exports.getLongFromSgetLongFromShort = function(shortURL, callback){
+exports.getLongFromShort = function(shortURL, callback){
   var query = {'short': shortURL}
   var select = 'long'
   var options = {

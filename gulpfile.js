@@ -7,7 +7,7 @@ var notify = require('gulp-notify')
 var nodemon = require('gulp-nodemon')
 
 gulp.task('browserify', function() {
-  gulp.src('./public/src/js/main.jsx', { read: false })
+  gulp.src('./client/src/js/main.jsx', { read: false })
     .pipe(plumber())
     .pipe(browserify({
       transform: [reactify],
@@ -17,12 +17,12 @@ gulp.task('browserify', function() {
       title: 'Error'
     }))
     .pipe(rename('bundle.js'))
-    .pipe(gulp.dest('./public/dist/js/'))
+    .pipe(gulp.dest('./client/build/js/'))
 })
 
 gulp.task('watch', function(){
   console.log('watching...')
-  var watcher = gulp.watch('./public/src/js/*jsx', ['browserify'])
+  var watcher = gulp.watch('./client/src/js/*jsx', ['browserify'])
   watcher.on('change', function(event) {
     console.log('File ' + event.path + ' was ' + event.type + ', running tasks...')
   })

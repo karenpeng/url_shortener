@@ -5,13 +5,13 @@ var bodyParser = require('body-parser')
 var cookieParser = require('cookie-parser')
 var ejs = require('ejs')
 
-var routes = require('./routes/index')
-var config = require('./config.json')
+var routes = require('./server/routes/index')
+var config = require('./server/config.json')
 
 app.set('env', 'development');
 
 app.set('views', __dirname + '/views')
-app.use(express.static(__dirname + '/public'))
+app.use(express.static(__dirname + '/client'))
 app.set('view engine', 'ejs')
 //app.engine('jsx', require('express-react-views').createEngine());
 

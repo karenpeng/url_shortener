@@ -1,4 +1,4 @@
-## Short.ly
+# Short.ly
 
 a url shortener, a feather-weight bit.ly clone.
 

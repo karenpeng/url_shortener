@@ -1,11 +1,33 @@
-## this is a url-shortener exercise
+## Short.ly
 
-made with React.js and Node.js
+a url shortener, a feather-weight bit.ly clone.
 
-- [x] backend error handling
-- [x] optimize user experience
-- [ ] try server side rendering maybe
+### Functionalities:
 
-###usage
+ * url valid check
+ * url shorten in base62
+ * store long to short
+ * store short to long
+ 
+### Design
 
-``` gulp ```
+ * Tool / Framework
+   * back end:
+    * node.js - backend server
+    * mongoose - schema modeling
+    * mongo - database
+   * front end:
+    * react - ui component
+   * task and compile  
+     * gulp - task manager and build system
+     * browserify - bundle module
+  
+
+### Demo
+
+Visit http://sshort.herokuapp.com/
+
+or
+
+Enjoy this [video](https://vimeo.com/148328782)
+

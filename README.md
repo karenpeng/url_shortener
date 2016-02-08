@@ -12,16 +12,14 @@ a url shortener, a feather-weight bit.ly clone.
 ### Design
 
  * Tool / Framework
-   * back end:
-    * node.js - backend server
-    * mongoose - schema modeling
-    * mongo - database
-   * front end:
-    * react - ui component
-   * task and compile  
-     * gulp - task manager and build system
-     * browserify - bundle module
+  * node.js - backend server
+  * mongoose - schema modeling
+  * mongo - database
+ 
+  * react - ui component
   
+  * gulp - task manager and build system
+  * browserify - bundle module
 
 ### Demo
 
